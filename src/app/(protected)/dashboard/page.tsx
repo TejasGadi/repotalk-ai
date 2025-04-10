@@ -10,14 +10,22 @@ const InviteButton = dynamic(()=>import('./invite-button'), {ssr: false})
 import TeamMembers from "./team-members";
 import dynamic from "next/dynamic";
 import { api } from "~/trpc/react";
+import useRefetch from "~/hooks/use-refetch";
+import { useEffect } from "react";
+
+
 
 const DashboardPage = () => {
   const { selectedProjectId: projectId,project } = useProject();
 
-  const { data: commits } = api.project.getCommits.useQuery({
-      projectId: projectId,
-    });
-
+  const { data: commits, refetch } = api.project.getCommits.useQuery(
+    { projectId },
+    {
+      refetchInterval: 10000, // every 10 seconds
+      enabled: !!projectId, // optional: only run when projectId is valid
+    }
+  );
+  
   return (
     commits ? 
     (<div>
@@ -58,7 +66,7 @@ const DashboardPage = () => {
       <CommitLog/>
       
     </div>
-    ):(
+    ): (
        <div className="flex h-[80vh] flex-col items-center justify-center text-center">
           <div className="mb-4 animate-pulse text-3xl font-semibold text-gray-700 dark:text-white">
             Setting up your project...

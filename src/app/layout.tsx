@@ -24,8 +24,10 @@ export default function RootLayout({
         <head>
           <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         </head>
-        <body>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+        <body className="w-[100vw]">
+          <TRPCReactProvider>
+            {children}
+          </TRPCReactProvider>
           <Toaster richColors/>
         </body>
       </html>

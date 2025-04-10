@@ -9,12 +9,19 @@ import ArchiveButton from "./archive-button";
 const InviteButton = dynamic(()=>import('./invite-button'), {ssr: false})
 import TeamMembers from "./team-members";
 import dynamic from "next/dynamic";
+import { api } from "~/trpc/react";
 
 const DashboardPage = () => {
-  const { project } = useProject();
+  const { selectedProjectId: projectId,project } = useProject();
+
+  const { data: commits } = api.project.getCommits.useQuery({
+      projectId: projectId,
+    });
 
   return (
-    <div>
+    commits ? 
+    (<div>
+      
       <div className="flex flex-wrap items-center justify-between gap-y-4">
         {/* <p>Project Id: {project?.id}</p> */}
         
@@ -49,7 +56,17 @@ const DashboardPage = () => {
 
       <div className="mt-8"></div>
       <CommitLog/>
+      
     </div>
+    ):(
+       <div className="flex h-[80vh] flex-col items-center justify-center text-center">
+          <div className="mb-4 animate-pulse text-3xl font-semibold text-gray-700 dark:text-white">
+            Setting up your project...
+          </div>
+       <div className="h-2 w-1/2 animate-pulse rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+        </div>
+    )
+    
   );
 };
 

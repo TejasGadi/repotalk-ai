@@ -4,67 +4,57 @@ import { z } from "zod";
 import { checkRequiredCredits, indexGithubRepo } from "~/lib/githubloader";
 
 export const projectRouter = createTRPCRouter({
-    createProject: protectedProcedure.input(
-        z.object({
-            name: z.string(),
-            githubUrl: z.string(),
-            githubToken: z.string().optional()
-        })
-        
-    ).mutation(async({ctx, input})=>{
-        const user = await ctx.db.user.findUnique({
-            where:{
-                id: ctx.user.userId!
-            },
-            select:{
-                credits:true
-            }
-        })
+    createProject: protectedProcedure
+  .input(
+    z.object({
+      name: z.string(),
+      githubUrl: z.string(),
+      githubToken: z.string().optional()
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const user = await ctx.db.user.findUnique({
+      where: { id: ctx.user.userId! },
+      select: { credits: true },
+    });
 
-        if(!user){
-            throw new Error("User not found")
+    if (!user) throw new Error("User not found");
+    if (!ctx.user?.userId) throw new Error("Missing user ID");
+
+    const currentCredits = user.credits || 0;
+    const fileCount = await checkRequiredCredits(input.githubUrl, input.githubToken);
+
+    if (currentCredits < fileCount) {
+      throw new Error("Insufficient Credits!");
+    }
+
+    const project = await ctx.db.project.create({
+      data: {
+        name: input.name,
+        githubUrl: input.githubUrl,
+        userToProject: {
+          create: {
+            userId: ctx.user.userId!
+          }
         }
-        // Check if the user ID is missing
-        if (!ctx.user?.userId) {
-            throw new Error("User ID is missing. Cannot create project.");
-        }
+      }
+    });
 
-        const currentCredits = user.credits || 0
-        const fileCount = await checkRequiredCredits(input.githubUrl, input.githubToken)
+    // Call background job API (non-blocking)
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/background-process`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        projectId: project.id,
+        githubUrl: input.githubUrl,
+        githubToken: input.githubToken,
+        userId: ctx.user.userId,
+        fileCount,
+      })
+    }).catch(console.error);
 
-        if(currentCredits < fileCount){
-            throw new Error("Insufficient Credits!")
-        }
-
-        const project = await ctx.db.project.create({
-            data:{
-                name: input.name,
-                githubUrl: input.githubUrl,
-                userToProject: {
-                    create:{
-                        userId: ctx.user.userId!
-                    }
-                }
-
-            }
-        })
-
-        await indexGithubRepo(project.id,input.githubUrl, input.githubToken)
-        await pollCommits(project.id)
-
-        await ctx.db.user.update({
-            where:{
-                id: ctx.user.userId!
-            },
-            data:{
-                credits:{
-                    decrement: fileCount
-                }
-            }
-        })
-
-        return project
-    }),
+    return project;
+  }),
 
     getProjects: protectedProcedure.query(async({ctx})=>{
         return ctx.db.project.findMany({

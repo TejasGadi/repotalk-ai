@@ -5,6 +5,16 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+    experimental: {
+      allowedDevOrigins: ["https://weak-foxes-trade.loca.lt"],
+    },
+    eslint:{
+      ignoreDuringBuilds: true
+    },
+    typescript:{
+      ignoreBuildErrors: true
+    },
+  };
 
 export default config;

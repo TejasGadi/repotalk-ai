@@ -56,7 +56,7 @@ const CreatePage = () => {
 
   return (
     <div className='flex items-center gap-12 h-full justify-center'>
-      <img src={"github_svg.svg"} alt='Github SVG' className='h-56 w-auto'/>
+    <img src={"github_svg.svg"} alt='Github SVG' className='h-56 w-auto'/>
       <div>
         <div className='mb-4'>
             <h1 className="font-semibold text-2xl">

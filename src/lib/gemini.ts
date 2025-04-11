@@ -1,8 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Document } from "@langchain/core/documents";
 
-// const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-const genai = new GoogleGenerativeAI("AIzaSyDy2E86cFhUrixcwiXY1zKDQZznOCAwdxY");
+const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genai.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export const aiSummarizeCommit = async (diff: string) => {

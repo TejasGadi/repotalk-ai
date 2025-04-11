@@ -7,16 +7,16 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-2 flex flex-col md:flex-row items-center justify-between gap-6 text-sm">
         {/* Left: Legal Links */}
         <div className="flex flex-wrap justify-center md:justify-start gap-4">
-          <Link href="/legal/privacy-policy" className="hover:text-primary transition">
+          <Link href="/legal/#privacy-policy" className="hover:text-primary transition">
             Privacy Policy
           </Link>
-          <Link href="/legal/terms-and-conditions" className="hover:text-primary transition">
+          <Link href="/legal/#terms-and-conditions" className="hover:text-primary transition">
             Terms & Conditions
           </Link>
-          <Link href="/legal/cancellations-and-refunds" className="hover:text-primary transition">
+          <Link href="/legal/#cancellations-and-refunds" className="hover:text-primary transition">
             Refund Policy
           </Link>
-          <Link href="/legal/contact-us" className="hover:text-primary transition">
+          <Link href="/legal/#contact-us" className="hover:text-primary transition">
             Contact Us
           </Link>
         </div>

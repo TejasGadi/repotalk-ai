@@ -93,49 +93,64 @@ const BillingPage = () => {
 
   return (
     <div>
-      <h1 className="mb-2 text-xl font-semibold">Billing</h1>
-      
-      {/* <p className="mb-2 text-sm text-gray-500">
-        You currently have {user?.credits} credits
-      </p> */}
-      <Card className="mb-4 border-blue-500 shadow-md">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-lg font-medium text-blue-700">Your Credits</CardTitle>
-        </CardHeader>
-        <CardContent>
-            <div className="text-3xl font-bold text-blue-900">{user?.credits}</div>
-            <p className="text-sm text-muted-foreground">credits available</p>
-        </CardContent>
-    </Card>
-      <div className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-blue-700">
-        <div className="flex items-center gap-2">
-          <Info className="size-4" />
-          <p className="text-sm">
-            Each credit allows you to index 1 file in the repository.
-          </p>
-        </div>
-        <p className="text-sm">
-          Example: If your project has 100 files, you require 100 credits to
-          index it.
-        </p>
-      </div>
-      <h1 className="mt-4 text-lg font-semibold">Buy Credits</h1>
-      <Slider
-        defaultValue={[100]}
-        max={1000}
-        min={10}
-        step={10}
-        onValueChange={(value) => setCreditsToBuy(value)}
-        value={creditsToBuy}
-        className="mb-4 mt-4 cursor-pointer"
-      />
+      {
+        user?.credits?(
+          <>
+            <h1 className="mb-2 text-xl font-semibold">Billing</h1>
+              
+              {/* <p className="mb-2 text-sm text-gray-500">
+                You currently have {user?.credits} credits
+              </p> */}
+              <Card className="mb-4 border-blue-500 shadow-md">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-lg font-medium text-blue-700">Your Credits</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-3xl font-bold text-blue-900">{user?.credits}</div>
+                    <p className="text-sm text-muted-foreground">credits available</p>
+                </CardContent>
+            </Card>
+              <div className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-blue-700">
+                <div className="flex items-center gap-2">
+                  <Info className="size-4" />
+                  <p className="text-sm">
+                    Each credit allows you to index 1 file in the repository.
+                  </p>
+                </div>
+                <p className="text-sm">
+                  Example: If your project has 100 files, you require 100 credits to
+                  index it.
+                </p>
+              </div>
+              <h1 className="mt-4 text-lg font-semibold">Buy Credits</h1>
+              <Slider
+                defaultValue={[100]}
+                max={1000}
+                min={10}
+                step={10}
+                onValueChange={(value) => setCreditsToBuy(value)}
+                value={creditsToBuy}
+                className="mb-4 mt-4 cursor-pointer"
+              />
 
-      <Button
-        onClick={handlePayment}
-        className="mt-4"
-      >
-        Buy {creditsToBuyAmount} credits for Rs.{price}
-      </Button>
+              <Button
+                onClick={handlePayment}
+                className="mt-4"
+              >
+                Buy {creditsToBuyAmount} credits for Rs.{price}
+              </Button>
+          </>
+        ):
+        (
+          <div className="flex h-[80vh] w-full flex-col items-center justify-center text-center">
+            <div className="mt-6 mb-4 animate-pulse text-2xl font-semibold text-gray-700 dark:text-white">
+              Loading your billing page...
+            </div>
+            <div className="h-2 w-1/2 animate-pulse rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+          </div>
+        )
+      }
+      
     </div>
   );
 };

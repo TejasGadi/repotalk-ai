@@ -159,28 +159,6 @@ export default function Home() {
           </div>
 
           <PricingTable />
-
-          <div className="mt-12 text-center">
-            <p className="text-muted-foreground mb-6">All plans include:</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-green-500"></div>
-                <span>Unlimited repositories</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-green-500"></div>
-                <span>Team collaboration</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-green-500"></div>
-                <span>Priority support</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-green-500"></div>
-                <span>Regular updates</span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

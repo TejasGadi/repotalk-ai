@@ -49,7 +49,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-muted/50 w-full flex flex-col items-center">
+      <section id="features" className="py-24 bg-muted/50 w-full flex flex-col items-center">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Supercharge Your Development Workflow</h2>
@@ -95,7 +95,7 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 w-full flex flex-col items-center">
+      <section id="docs" className="py-24 w-full flex flex-col items-center">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How RepoTalk AI Works</h2>
@@ -148,18 +148,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 bg-muted/50 w-full flex flex-col items-center">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Loved by Developers</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See what developers are saying about their experience with RepoTalk AI.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Pricing Section */}
       <section className="py-24 w-full flex flex-col items-center" id="pricing">
         <div className="container px-4 md:px-6">
@@ -197,7 +185,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-muted/50 w-full flex flex-col items-center">
+      <section id="faq" className="py-24 bg-muted/50 w-full flex flex-col items-center">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
@@ -213,7 +201,7 @@ export default function Home() {
       </section>
 
       {/* Tech Stack */}
-      <section className="py-12 border-t">
+      <section id="tech-stack" className="py-12 border-t">
         <div className="container px-4 md:px-6">
           <TechStack />
         </div>

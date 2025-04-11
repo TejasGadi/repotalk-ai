@@ -18,6 +18,8 @@ export default function Navbar() {
     { name: "Features", href: "#features" },
     { name: "Pricing", href: "#pricing" },
     { name: "Docs", href: "#docs" },
+    { name: "FAQs", href: "#faq" },
+    { name: "Tech Stack", href: "#tech-stack" },
   ]
 
 

@@ -10,6 +10,7 @@ import Footer from "~/components/footer";
 export default function LegalPage() {
     const emailToReachOut = "tvgadi2003@gmail.com"
     const contactNum = "+91 9175101275"
+    const address = "Gandhinagar, Akkalkot Road, Solapur \nPIN Code: 413006"
   return (
     <>
     <Navbar/>
@@ -20,15 +21,6 @@ export default function LegalPage() {
         <p className="text-muted-foreground">
           Below are the legal policies that govern the use of RepoTalk AI. Please read them carefully.
         </p>
-      </div>
-
-      {/* Table of Contents */}
-      <div className="flex items-center gap-2 mb-6 space-x-4 text-primary bg-gray-400 p-2 rounded-md">
-        <a href="#privacy-policy" className="hover:underline">Privacy</a>
-        <a href="#terms-and-conditions" className="hover:underline">Terms</a>
-        <a href="#cancellations-and-refunds" className="hover:underline">Refunds</a>
-        <a href="#shipping-policy" className="hover:underline">Shipping</a>
-        <a href="#contact-us" className="hover:underline">Contact</a>
       </div>
 
       {/* Legal Sections */}
@@ -49,7 +41,7 @@ export default function LegalPage() {
       </section>
 
       <section id="contact-us">
-        <ContactUs emailToReachOut={emailToReachOut} contactNum={contactNum}/>
+        <ContactUs emailToReachOut={emailToReachOut} contactNum={contactNum} address={address}/>
       </section>
     </main>
     <Footer/>

@@ -1,6 +1,6 @@
 export default function PrivacyPolicyPage({emailToReachOut}: any) {
     return (
-      <main className="p-6 max-w-3xl mx-auto">
+      <main className="p-6 max-w-3xl m-auto">
         <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
         <p>
           At RepoTalk AI, we take your privacy seriously. This policy explains how we collect, use, and protect your personal information.

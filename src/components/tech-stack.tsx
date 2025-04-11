@@ -4,7 +4,7 @@ export default function TechStack() {
       { name: "OpenAI GPT-4", icon: "AI" },
       { name: "LangChain", icon: "LC" },
       { name: "Clerk", icon: "CL" },
-      { name: "Stripe", icon: "S" },
+      { name: "Razorpay", icon: "RP" },
       { name: "NeonDB", icon: "N" },
       { name: "ShadCN", icon: "SC" },
       { name: "Prisma", icon: "P" },

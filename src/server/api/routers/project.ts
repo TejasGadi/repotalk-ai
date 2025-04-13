@@ -9,7 +9,8 @@ export const projectRouter = createTRPCRouter({
     z.object({
       name: z.string(),
       githubUrl: z.string(),
-      githubToken: z.string().optional()
+      githubToken: z.string().optional(),
+      branchName: z.string().optional()
     })
   )
   .mutation(async ({ ctx, input }) => {
@@ -74,6 +75,7 @@ export const projectRouter = createTRPCRouter({
         projectId: project.id,
         githubUrl: input.githubUrl,
         githubToken: input.githubToken,
+        branchName: input.branchName,
         userId: ctx.user.userId,
         fileCount,
       }),
@@ -199,9 +201,10 @@ export const projectRouter = createTRPCRouter({
         {
             githubUrl: z.string(),
             githubToken: z.string().optional(),
+            branchName: z.string().optional()
         }
     )).mutation(async({ctx, input})=>{
-        const fileCount = await checkRequiredCredits(input.githubUrl, input.githubToken)
+        const fileCount = await checkRequiredCredits(input.githubUrl, input.githubToken, input.branchName)
         const userCredits = await ctx.db.user.findUnique({
             where:{
                 id: ctx.user.userId!

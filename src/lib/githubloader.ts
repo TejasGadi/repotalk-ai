@@ -9,7 +9,7 @@ const getFileCount = async (path: string, octokit: Octokit, githubOwner: string,
   const { data } = await octokit.rest.repos.getContent({
     owner: githubOwner,
     repo: githubRepo,
-    path
+    path,
   });
 
   if (!Array.isArray(data) && data.type == "file") {
@@ -41,7 +41,7 @@ const getFileCount = async (path: string, octokit: Octokit, githubOwner: string,
   return acc;
 };
 
-export const checkRequiredCredits = async (githubUrl: string, githubToken?: string) => {
+export const checkRequiredCredits = async (githubUrl: string, githubToken?: string, branchName?:string) => {
   const default_access_token = process.env.GITHUB_TOKEN;
   if (!githubToken) {
     githubToken = default_access_token;
@@ -60,16 +60,20 @@ export const checkRequiredCredits = async (githubUrl: string, githubToken?: stri
   return fileCount;
 };
 
-export const loadGitHubRepo = async (githubUrl: string, githubToken?: string) => {
+export const loadGitHubRepo = async (githubUrl: string, githubToken?: string, branchName?:string) => {
   const default_access_token = process.env.GITHUB_TOKEN;
 
   if (!githubToken) {
     githubToken = default_access_token;
   }
 
+  if(!branchName){
+    branchName = "main"
+  }
+
   const loader = new GithubRepoLoader(githubUrl, {
     accessToken: githubToken,
-    branch: 'main',
+    branch: branchName,
     ignoreFiles: ['package-lock.json', 'yarn.lock'],
     recursive: true,
     unknown: 'warn',
@@ -84,9 +88,9 @@ function removeNullBytes(str: string): string {
   return str.replace(/\x00/g, '');
 }
 
-export const indexGithubRepo = async (projectId: string, githubUrl: string, githubToken?: string) => {
+export const indexGithubRepo = async (projectId: string, githubUrl: string, githubToken?: string, branchName?:string) => {
   try {
-    const docs = await loadGitHubRepo(githubUrl, githubToken);
+    const docs = await loadGitHubRepo(githubUrl, githubToken, branchName);
     const allEmbeddings = await generateEmbeddings(docs);
 
     const pineconeVectors: {
@@ -128,6 +132,10 @@ export const indexGithubRepo = async (projectId: string, githubUrl: string, gith
     if (pineconeVectors.length > 0) {
       await pineconeIndex.upsert(pineconeVectors); // ✅ FIXED LINE
       console.log(`✅ Uploaded ${pineconeVectors.length} vectors to Pinecone`);
+    }
+    else{
+      console.log("pineconeVectors count : ", pineconeVectors.length)
+      console.log("❌ pineconeVectors not uploaded")
     }
 
   } catch (error) {

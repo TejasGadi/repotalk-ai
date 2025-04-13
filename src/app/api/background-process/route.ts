@@ -7,9 +7,9 @@ export async function POST(req: Request) {
   try {
     console.log("Background process API is triggered!!!")
     const body = await req.json();
-    const { projectId, githubUrl, githubToken, userId, fileCount } = body;
+    const { projectId, githubUrl, githubToken, branchName, userId, fileCount } = body;
  
-    await indexGithubRepo(projectId, githubUrl, githubToken);
+    await indexGithubRepo(projectId, githubUrl, githubToken, branchName);
     await pollCommits(projectId);
 
     await db.user.update({

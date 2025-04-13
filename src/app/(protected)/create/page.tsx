@@ -13,7 +13,8 @@ import { api } from '~/trpc/react'
 type FormInput = {
     repoUrl: string,
     projectName: string,
-    githubToken?: string
+    githubToken?: string,
+    branchName?: string
 }
 
 const CreatePage = () => {
@@ -45,7 +46,8 @@ const CreatePage = () => {
         }else{
             checkCredits.mutate({
                 githubUrl: data.repoUrl,
-                githubToken: data.githubToken
+                githubToken: data.githubToken,
+                branchName: data.branchName
             })
         }
         
@@ -82,6 +84,11 @@ const CreatePage = () => {
                 className='mt-4'
                 {...register('githubToken', {required: false})}
                 placeholder='Github Token(Optional)'
+                />
+            <Input
+                className='mt-4'
+                {...register('branchName', {required: false})}
+                placeholder='Branch Name'
                 />
 
             {!!checkCredits.data && (

@@ -27,7 +27,7 @@ const DashboardPage = () => {
   );
   
   return (
-    commits ? 
+    commits?.length!=0 ? 
     (<div>
       
       <div className="flex flex-wrap items-center justify-between gap-y-4">

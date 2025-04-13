@@ -79,10 +79,11 @@ const AskQuestionCard = () => {
                         </Button>
                     </div>
                 </DialogHeader>
-
-                <MDEditor.Markdown source={answer} className='max-w-[70vw] !h-full max-h-[30vh] overflow-auto mb-4'/>
-
-                <CodeReferences filesReferences={filesReferences}/>
+                
+                <div className="flex flex-col h-[80vh]">
+                    <MDEditor.Markdown source={answer} className='flex-1 max-w-[70vw] !h-full max-h-[30vh] overflow-auto mb-4'/>
+                    <CodeReferences filesReferences={filesReferences}/>
+                </div>
 
                 <Button type='button' onClick={()=>setOpen(false)}>
                     Close

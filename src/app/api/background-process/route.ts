@@ -5,9 +5,10 @@ import { db } from "~/server/db";
 
 export async function POST(req: Request) {
   try {
+    console.log("Background process API is triggered!!!")
     const body = await req.json();
     const { projectId, githubUrl, githubToken, userId, fileCount } = body;
-
+ 
     await indexGithubRepo(projectId, githubUrl, githubToken);
     await pollCommits(projectId);
 
@@ -21,4 +22,8 @@ export async function POST(req: Request) {
     console.error("Background job failed", err);
     return new Response("Internal Server Error", { status: 500 });
   }
+}
+
+export async function GET() {
+  return new Response("Hello, World!", { status: 200 });
 }

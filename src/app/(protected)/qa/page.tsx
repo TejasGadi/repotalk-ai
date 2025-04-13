@@ -56,8 +56,11 @@ const QAPage = () => {
             <SheetTitle>
               {question.question}
             </SheetTitle>
-            <MDEditor.Markdown source={question.answer} className='max-w-[90%] !h-full max-h-[40vh] overflow-scroll mb-4'/>
-            <CodeReferences filesReferences={(question.filesReferences ?? []) as any}/>
+            <div className="flex flex-col h-[90vh]">
+                
+              <MDEditor.Markdown source={question.answer} className='flex-1 max-w-[90%] !h-full max-h-[40vh] overflow-scroll mb-4'/>
+              <CodeReferences filesReferences={(question.filesReferences ?? []) as any}/>
+            </div>
           </SheetHeader>
         </SheetContent>
       )}

@@ -94,7 +94,7 @@ const isAuthenticated = t.middleware(async ({next, ctx})=>{
   return next({
     ctx:{
       ...ctx,
-      user
+      user,
     }
   })
 })

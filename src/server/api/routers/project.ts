@@ -13,48 +13,85 @@ export const projectRouter = createTRPCRouter({
     })
   )
   .mutation(async ({ ctx, input }) => {
+    console.log("Starting createProject mutation...");
+
+    // Fetch user data
     const user = await ctx.db.user.findUnique({
       where: { id: ctx.user.userId! },
       select: { credits: true },
     });
 
-    if (!user) throw new Error("User not found");
-    if (!ctx.user?.userId) throw new Error("Missing user ID");
+    console.log("Fetched user data:", user);
+
+    if (!user) {
+      console.error("User not found!");
+      throw new Error("User not found");
+    }
+    if (!ctx.user?.userId) {
+      console.error("Missing user ID");
+      throw new Error("Missing user ID");
+    }
 
     const currentCredits = user.credits || 0;
+    console.log("Current user credits:", currentCredits);
+
+    // Check required credits for project creation
     const fileCount = await checkRequiredCredits(input.githubUrl, input.githubToken);
+    console.log("Required file count:", fileCount);
 
     if (currentCredits < fileCount) {
+      console.error("Insufficient credits!");
       throw new Error("Insufficient Credits!");
     }
 
+    // Create project in the database
+    console.log("Creating project with name:", input.name);
     const project = await ctx.db.project.create({
       data: {
         name: input.name,
         githubUrl: input.githubUrl,
         userToProject: {
           create: {
-            userId: ctx.user.userId!
-          }
-        }
-      }
+            userId: ctx.user.userId!,
+          },
+        },
+      },
     });
 
+    console.log("Project created:", project);
+
     // Call background job API (non-blocking)
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/background-process`, {
+    console.log(`Calling background process API...`);
+
+    const token = await ctx.user.getToken()
+
+    fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/background-process`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+       },
       body: JSON.stringify({
         projectId: project.id,
         githubUrl: input.githubUrl,
         githubToken: input.githubToken,
         userId: ctx.user.userId,
         fileCount,
+      }),
+    })
+      .then(response => {
+        console.log("Background process API response:", response);
+        if (!response.ok) {
+          throw new Error(`Failed with status: ${response.status}`);
+        }
+        return response.json(); // or handle response as needed
       })
-    }).catch(console.error);
+      .catch(error => {
+        console.error('API request failed:', error);
+      });
 
     return project;
   }),
+
 
     getProjects: protectedProcedure.query(async({ctx})=>{
         return ctx.db.project.findMany({
